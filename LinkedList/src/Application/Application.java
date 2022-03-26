@@ -2,6 +2,7 @@ package Application;
 
 import linkedlist.LinkedList;
 import DoublyLinkedList.DoublyLinkedList;
+import DoublyLinkedListWithDescritor.DoublyLinkedListDescritor;
 
 /**
  *
@@ -10,9 +11,9 @@ import DoublyLinkedList.DoublyLinkedList;
 public class Application {
     public static void main(String[] args) {
         
-        DoublyLinkedList produtos = new DoublyLinkedList();
         //LinkedList produtos = new LinkedList();
-        
+        //DoublyLinkedList produtos = new DoublyLinkedList();
+        DoublyLinkedListDescritor produtos = new DoublyLinkedListDescritor();
         
         produtos.insert(new Produto("PRODUTO_1", 10));
         produtos.insert(new Produto("PRODUTO_2", 20));
@@ -25,11 +26,13 @@ public class Application {
         else
             System.out.println("Erro na alteração");
         
-        if(produtos.remove(2))
+        if(produtos.remove(4))
             System.out.println("Removido com sucesso");
         else
             System.out.println("Erro na remoção");
         
         produtos.printAll();
+        
+        //System.out.println("Size:" + produtos.getSize());
     }  
 }

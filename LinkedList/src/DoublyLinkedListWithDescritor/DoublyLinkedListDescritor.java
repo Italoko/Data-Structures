@@ -1,4 +1,4 @@
-package DoublyLinkedList;
+package DoublyLinkedListWithDescritor;
 
 import Application.Produto;
 
@@ -6,15 +6,12 @@ import Application.Produto;
  *
  * @author ITALO PIOVAN
  */
-public class DoublyLinkedList {
-    private No head;
+public class DoublyLinkedListDescritor {
     
-    public DoublyLinkedList() {
-        head = null;
-    }
+    private  Descritor descritor;
     
-    public No getHead() {
-        return head;
+    public DoublyLinkedListDescritor() {
+        descritor = new Descritor();
     }
     
     public void insert(Object data){
@@ -22,22 +19,23 @@ public class DoublyLinkedList {
         No no = new No();
         no.setData(data);
         
-        if(head == null)
-            head = no;           
+        if(descritor.getSize() == 0)
+        {
+            descritor.setStart(no);
+            descritor.setEnd(no);
+        }
         else
         {
-            No aux = head;
-            while(aux.getProx() != null)
-                aux = aux.getProx();
-            
-            no.setPrev(aux);
-            aux.setProx(no);
+            descritor.getEnd().setProx(no);
+            no.setPrev(descritor.getEnd());
+            descritor.setEnd(no);
         }
+        descritor.setSize(1);
     }
     
     public boolean alter(int pos, Object data){
         
-        No aux = head;
+        No aux = descritor.getStart();
         
         for (int i = 0; aux != null && i < pos; i++) 
             aux = aux.getProx();
@@ -52,36 +50,40 @@ public class DoublyLinkedList {
     
     public boolean remove(int pos){
         
-        if(head != null)
+        if(descritor.getSize() > 0)
         {
-            if(head.getProx() == null)
-                head = null;
+            if(descritor.getSize() == 1)
+            {
+                descritor.setStart(null);
+                descritor.setEnd(null);
+            }
             else
             {
-                No aux = head;
+                No aux = descritor.getStart();
                 for (int i = 0; aux != null && i < pos; i++) 
                     aux = aux.getProx();
                 
                 if(aux != null)
                 {
-                    if(aux == head)
+                    if(aux == descritor.getStart())
                     {
-                        head = aux.getProx();  
-                        head.setPrev(null);
+                        descritor.setStart(aux.getProx());
+                        descritor.getStart().setPrev(null);
                     }
                     else 
-                    {
-                        /*if(aux.getProx() == null)
-                            aux.getPrev().setProx(aux.getProx());
+                    {   
+                        if(aux == descritor.getEnd())
+                        {
+                            descritor.setEnd(aux.getPrev());
+                            descritor.getEnd().setProx(null);
+                        }
                         else
                         {
                             aux.getPrev().setProx(aux.getProx());
                             aux.getProx().setPrev(aux.getPrev());
-                        }*/
-                        aux.getPrev().setProx(aux.getProx());
-                        if(aux.getPrev()!= null)
-                            aux.getPrev().setProx(aux.getProx());
+                        }
                     }
+                    descritor.setSize(-1);
                     return true;
                 }
             }    
@@ -91,7 +93,7 @@ public class DoublyLinkedList {
        
     public void printAll(){
         
-        No aux = head;
+        No aux = descritor.getStart();
         while(aux != null)
         {
             Produto prod = (Produto) aux.getData();
@@ -99,5 +101,9 @@ public class DoublyLinkedList {
             
             aux = aux.getProx();
         }
+    }
+    
+    public int getSize(){
+        return descritor.getSize();
     }
 }
