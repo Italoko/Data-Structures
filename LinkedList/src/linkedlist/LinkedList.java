@@ -1,5 +1,7 @@
 package linkedlist;
 
+import Application.Produto;
+
 /**
  *
  * @author ITALO PIOVAN
@@ -34,7 +36,10 @@ public class LinkedList {
     
     public boolean alter(int pos, Object data){
         
-        No aux = searchNo(pos);
+        No aux = head;
+        for (int i = 0; aux != null && i < pos; i++) 
+            aux = aux.getProx();
+        
         if(aux != null)
         {
             aux.setData(data);
@@ -44,14 +49,28 @@ public class LinkedList {
     }
     
     public boolean remove(int pos){
-    
-        No aux = searchNo(pos-1);
-        if(aux != null)
-        {
-            aux.setProx(aux.getProx().getProx());
-            return true;
-        }
         
+        No ant = head;
+        No aux = head;
+        
+        if(head != null)
+        {
+            if(head.getProx() == null)
+                head = null;
+            else
+            {
+                for (int i = 0; aux != null && i < pos; i++)
+                {
+                    ant = aux;
+                    aux = aux.getProx();
+                }
+                if(aux != null)
+                {
+                    ant.setProx(aux.getProx());   
+                    return true;
+                }  
+            } 
+        }
         return false;
     }
     
@@ -65,13 +84,5 @@ public class LinkedList {
             
             aux = aux.getProx();
         }
-    }
-    
-    private No searchNo(int pos){
-        
-        No aux = head;
-        for (int i = 0; aux != null && i < pos ; aux = aux.getProx(),i++) {}
-      
-        return aux;
     }
 }
